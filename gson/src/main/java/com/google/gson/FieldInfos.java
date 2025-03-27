@@ -32,16 +32,16 @@ import java.util.Objects;
  * @author Joel Leitch
  * @since 1.4
  */
-public final class FieldAttributes {
-  private final Field field;
+public final class FieldInfos {
+  private final Field fields;
 
   /**
    * Constructs a Field Attributes object from the {@code f}.
    *
    * @param f the field to pull attributes from
    */
-  public FieldAttributes(Field f) {
-    this.field = Objects.requireNonNull(f);
+  public FieldInfos(Field f) {
+    this.fields = Objects.requireNonNull(f);
   }
 
   /**
@@ -50,7 +50,7 @@ public final class FieldAttributes {
    * @return the declaring class that contains this field
    */
   public Class<?> getDeclaringClass() {
-    return field.getDeclaringClass();
+    return fields.getDeclaringClass();
   }
 
   /**
@@ -59,7 +59,7 @@ public final class FieldAttributes {
    * @return the name of the field
    */
   public String getName() {
-    return field.getName();
+    return fields.getName();
   }
 
   /**
@@ -81,8 +81,8 @@ public final class FieldAttributes {
    *
    * @return the specific type declared for this field
    */
-  public Type getDeclaredType() {
-    return field.getGenericType();
+  public Type getFiledGenericType(Field customField) {
+    return customField.getGenericType();
   }
 
   /**
@@ -102,8 +102,8 @@ public final class FieldAttributes {
    *
    * @return the specific class object that was declared for the field
    */
-  public Class<?> getDeclaredClass() {
-    return field.getType();
+  public Class<?> getFiledClass() {
+    return fields.getType();
   }
 
   /**
@@ -114,7 +114,7 @@ public final class FieldAttributes {
    * @return the annotation instance if it is bound to the field; otherwise {@code null}
    */
   public <T extends Annotation> T getAnnotation(Class<T> annotation) {
-    return field.getAnnotation(annotation);
+    return fields.getAnnotation(annotation);
   }
 
   /**
@@ -124,7 +124,7 @@ public final class FieldAttributes {
    * @since 1.4
    */
   public Collection<Annotation> getAnnotations() {
-    return Arrays.asList(field.getAnnotations());
+    return Arrays.asList(fields.getAnnotations());
   }
 
   /**
@@ -138,12 +138,11 @@ public final class FieldAttributes {
    *
    * @see java.lang.reflect.Modifier
    */
-  public boolean hasModifier(int modifier) {
-    return (field.getModifiers() & modifier) != 0;
-  }
+  public static final int PUBLIC_MODIFIER = java.lang.reflect.Modifier.PUBLIC;
 
-  @Override
-  public String toString() {
-    return field.toString();
+  public boolean hasModifier(int modifier) {
+      return (fields.getModifiers() & PUBLIC_MODIFIER) != 0;
   }
-}
+  
+
+  @Overrid
