@@ -32,46 +32,46 @@ import org.junit.Test;
  * @author Inderjeet Singh
  * @author Joel Leitch
  */
-public class FieldAttributesTest {
-  private FieldAttributes fieldAttributes;
+public class FieldInfosTest {
+  private FieldInfos fieldAttributes;
 
   @Before
   public void setUp() throws Exception {
-    fieldAttributes = new FieldAttributes(Foo.class.getField("bar"));
+    fieldInfos = new FieldInfos(Foo.class.getField("bar"));
   }
 
   @Test
   public void testNullField() {
-    assertThrows(NullPointerException.class, () -> new FieldAttributes(null));
+    assertThrows(NullPointerException.class, () -> new FieldInfos(null));
   }
 
   @Test
   public void testDeclaringClass() {
-    assertThat(fieldAttributes.getDeclaringClass()).isAssignableTo(Foo.class);
+    assertThat(fieldInfos.getDeclaringClass()).isAssignableTo(Foo.class);
   }
 
   @Test
   public void testModifiers() {
-    assertThat(fieldAttributes.hasModifier(Modifier.STATIC)).isFalse();
-    assertThat(fieldAttributes.hasModifier(Modifier.FINAL)).isFalse();
-    assertThat(fieldAttributes.hasModifier(Modifier.ABSTRACT)).isFalse();
-    assertThat(fieldAttributes.hasModifier(Modifier.VOLATILE)).isFalse();
-    assertThat(fieldAttributes.hasModifier(Modifier.PROTECTED)).isFalse();
+    assertThat(fieldInfos.hasModifier(Modifier.STATIC)).isFalse();
+    assertThat(fieldInfos.hasModifier(Modifier.FINAL)).isFalse();
+    assertThat(fieldInfos.hasModifier(Modifier.ABSTRACT)).isFalse();
+    assertThat(fieldInfos.hasModifier(Modifier.VOLATILE)).isFalse();
+    assertThat(fieldInfos.hasModifier(Modifier.PROTECTED)).isFalse();
 
-    assertThat(fieldAttributes.hasModifier(Modifier.PUBLIC)).isTrue();
-    assertThat(fieldAttributes.hasModifier(Modifier.TRANSIENT)).isTrue();
+    assertThat(fieldInfos.hasModifier(Modifier.PUBLIC)).isTrue();
+    assertThat(fieldInfos.hasModifier(Modifier.TRANSIENT)).isTrue();
   }
 
   @Test
   public void testName() {
-    assertThat(fieldAttributes.getName()).isEqualTo("bar");
+    assertThat(fieldInfos.getName()).isEqualTo("bar");
   }
 
   @Test
   public void testDeclaredTypeAndClass() {
     Type expectedType = new TypeToken<List<String>>() {}.getType();
-    assertThat(fieldAttributes.getDeclaredType()).isEqualTo(expectedType);
-    assertThat(fieldAttributes.getDeclaredClass()).isAssignableTo(List.class);
+    assertThat(fieldInfos.getDeclaredType()).isEqualTo(expectedType);
+    assertThat(fieldInfos.getDeclaredClass()).isAssignableTo(List.class);
   }
 
   private static class Foo {

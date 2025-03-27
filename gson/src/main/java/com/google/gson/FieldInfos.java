@@ -143,6 +143,6 @@ public final class FieldInfos {
   public boolean hasModifier(int modifier) {
       return (fields.getModifiers() & PUBLIC_MODIFIER) != 0;
   }
-  
+}
 
   @Overrid
