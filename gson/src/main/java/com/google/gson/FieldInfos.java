@@ -138,11 +138,13 @@ public final class FieldInfos {
    *
    * @see java.lang.reflect.Modifier
    */
-  public static final int PUBLIC_MODIFIER = java.lang.reflect.Modifier.PUBLIC;
-
   public boolean hasModifier(int modifier) {
-      return (fields.getModifiers() & PUBLIC_MODIFIER) != 0;
+    return (fields.getModifiers() & modifier) != 0;
+  }
+
+  @Override
+  public String toString() {
+    return fields.toString();
   }
 }
 
-  @Overrid
