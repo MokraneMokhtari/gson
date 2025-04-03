@@ -33,7 +33,7 @@ import org.junit.Test;
  * @author Joel Leitch
  */
 public class FieldInfosTest {
-  private FieldInfos fieldAttributes;
+  private FieldInfos fieldInfos;
 
   @Before
   public void setUp() throws Exception {
@@ -61,6 +61,23 @@ public class FieldInfosTest {
     assertThat(fieldInfos.hasModifier(Modifier.PUBLIC)).isTrue();
     assertThat(fieldInfos.hasModifier(Modifier.TRANSIENT)).isTrue();
   }
+
+  @Test
+public void testHasModifier() throws NoSuchFieldException {
+    // Création d'une classe Foo avec un champ public
+    class Foo {
+        public String bar;
+    }
+
+    // Créer un FieldInfos pour le champ "bar"
+    FieldInfos fieldInfo = new FieldInfos(Foo.class.getField("bar"));
+
+    // Test pour vérifier si le champ "bar" est public
+    assertThat(fieldInfo.hasModifier(Modifier.PUBLIC)).isTrue();
+    
+    // Test pour vérifier si le champ "bar" n'est pas static
+    assertThat(fieldInfo.hasModifier(Modifier.STATIC)).isFalse();
+}
 
   @Test
   public void testName() {
