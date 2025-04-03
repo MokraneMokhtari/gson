@@ -38,6 +38,8 @@ import java.util.TimeZone;
 @SuppressWarnings("MemberName") // legacy class name
 public class ISO8601Utils {
   private ISO8601Utils() {}
+  final static int SECOND_LIMITE = 59;
+  final static int LEAP_SECOND_LIMITE = 63;
 
   /**
    * ID to represent the 'UTC' string, default timezone since Jackson 2.7
@@ -200,7 +202,7 @@ public class ISO8601Utils {
           char c = date.charAt(offset);
           if (c != 'Z' && c != '+' && c != '-') {
             seconds = parseInt(date, offset, offset += 2);
-            if (seconds > 59 && seconds < 63) {
+            if (seconds > SECOND_LIMITE && seconds < LEAP_SECOND_LIMITE) {
               seconds = 59; // truncate up to 3 leap seconds
             }
             // milliseconds can be optional in the format
