@@ -90,43 +90,39 @@ public final class JsonObject extends JsonElement {
    * @param property name of the member.
    * @param value the string value associated with the member.
    */
+  private JsonElement wrapPrimitiveOrNull(Object value) {
+    if (value == null) {
+      return JsonNull.INSTANCE;
+    } else if (value instanceof String) {
+      return new JsonPrimitive((String) value);
+    } else if (value instanceof Number) {
+      return new JsonPrimitive((Number) value);
+    } else if (value instanceof Boolean) {
+      return new JsonPrimitive((Boolean) value);
+    } else if (value instanceof Character) {
+      return new JsonPrimitive((Character) value);
+    } else {
+      throw new IllegalArgumentException("Unsupported primitive type: " + value.getClass().getName());
+    }
+  }
+  
+  
   public void addProperty(String property, String value) {
-    add(property, value == null ? JsonNull.INSTANCE : new JsonPrimitive(value));
+    add(property, wrapPrimitiveOrNull(value));
   }
-
-  /**
-   * Convenience method to add a number member. The specified value is converted to a {@link
-   * JsonPrimitive} of Number.
-   *
-   * @param property name of the member.
-   * @param value the number value associated with the member.
-   */
+  
   public void addProperty(String property, Number value) {
-    add(property, value == null ? JsonNull.INSTANCE : new JsonPrimitive(value));
+    add(property, wrapPrimitiveOrNull(value));
   }
-
-  /**
-   * Convenience method to add a boolean member. The specified value is converted to a {@link
-   * JsonPrimitive} of Boolean.
-   *
-   * @param property name of the member.
-   * @param value the boolean value associated with the member.
-   */
+  
   public void addProperty(String property, Boolean value) {
-    add(property, value == null ? JsonNull.INSTANCE : new JsonPrimitive(value));
+    add(property, wrapPrimitiveOrNull(value));
   }
-
-  /**
-   * Convenience method to add a char member. The specified value is converted to a {@link
-   * JsonPrimitive} of Character.
-   *
-   * @param property name of the member.
-   * @param value the char value associated with the member.
-   */
+  
   public void addProperty(String property, Character value) {
-    add(property, value == null ? JsonNull.INSTANCE : new JsonPrimitive(value));
+    add(property, wrapPrimitiveOrNull(value));
   }
-
+  
   /**
    * Returns a set of members of this object. The set is ordered, and the order is in which the
    * elements were added.
