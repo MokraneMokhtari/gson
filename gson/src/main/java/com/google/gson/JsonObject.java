@@ -78,10 +78,21 @@ public final class JsonObject extends JsonElement {
    *     this name exists.
    * @since 1.3
    */
-  @CanIgnoreReturnValue
+  @CanIgnoreReturnValue 
   public JsonElement remove(String property) {
-    return members.remove(property);
+    JsonElement removedElement = getMember(property);
+    removeMember(property);
+    return removedElement;
   }
+  
+  private JsonElement getMember(String property) {
+    return members.get(property);
+  }
+  
+  private void removeMember(String property) {
+    members.remove(property);
+  }
+  
 
   /**
    * Convenience method to add a string member. The specified value is converted to a {@link
