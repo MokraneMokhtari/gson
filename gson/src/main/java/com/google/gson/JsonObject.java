@@ -205,10 +205,11 @@ public final class JsonObject extends JsonElement {
   public JsonPrimitive getAsJsonPrimitive(String memberName) {
     JsonElement element = members.get(memberName);
     if (element == null) {
-      throw new IllegalArgumentException("monmbre: " + memberName + "n'est pas trouvé");
+        throw new IllegalArgumentException("Le membre: " + memberName + " n'est pas trouvé");
     }
     return (JsonPrimitive) element;
-  }
+}
+
   /**
    * Convenience method to get the specified member as a {@link JsonArray}.
    *

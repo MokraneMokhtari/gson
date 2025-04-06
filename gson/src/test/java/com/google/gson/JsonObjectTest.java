@@ -272,6 +272,13 @@ public class JsonObjectTest {
     }
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetAsJsonPrimitiveThrowsWhenMissing() {
+    JsonObject obj = new JsonObject();
+    obj.getAsJsonPrimitive("missing");  // Cela doit lever l'IllegalArgumentException
+}
+
+
   @Test
   public void testEntrySet() {
     JsonObject o = new JsonObject();
