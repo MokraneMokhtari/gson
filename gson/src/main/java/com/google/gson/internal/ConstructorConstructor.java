@@ -367,7 +367,8 @@ public final class ConstructorConstructor {
     if (typeArguments.length == 0) {
       return false;
     }
-    return $Gson$Types.getRawType(typeArguments[0]) == String.class;
+    $Gson$Types typesHelper = new $Gson$Types();
+    return typesHelper.getRawType(typeArguments[0]) == String.class;
   }
 
   private static ObjectConstructor<? extends Map<? extends Object, Object>> newMapConstructor(

@@ -46,9 +46,10 @@ public final class ArrayTypeAdapter<E> extends TypeAdapter<Object> {
           TypeAdapter<?> componentTypeAdapter = gson.getAdapter(TypeToken.get(componentType));
 
           @SuppressWarnings({"unchecked", "rawtypes"})
+          $Gson$Types typesHelper = new $Gson$Types();
           TypeAdapter<T> arrayAdapter =
               new ArrayTypeAdapter(
-                  gson, componentTypeAdapter, $Gson$Types.getRawType(componentType));
+                gson, componentTypeAdapter, typesHelper.getRawType(componentType));
           return arrayAdapter;
         }
       };

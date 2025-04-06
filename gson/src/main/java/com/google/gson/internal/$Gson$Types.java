@@ -45,8 +45,9 @@ import java.util.Properties;
 @SuppressWarnings("MemberName") // legacy class name
 public final class $Gson$Types {
   static final Type[] EMPTY_TYPE_ARRAY = new Type[] {};
+  public static Object typesHelper;
 
-  private $Gson$Types() {
+  public $Gson$Types() {
     throw new UnsupportedOperationException();
   }
 
@@ -128,7 +129,7 @@ public final class $Gson$Types {
     }
   }
 
-  public static Class<?> getRawType(Type type) {
+  public Class<?> getRawType(Type type) {
     if (type instanceof Class<?>) {
       // type is a normal class.
       return (Class<?>) type;

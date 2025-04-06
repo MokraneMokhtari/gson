@@ -55,7 +55,7 @@ public class TypeToken<T> {
   private final Class<? super T> rawType;
   private final Type type;
   private final int hashCode;
-
+  private static final $Gson$Types typesHelper = new $Gson$Types();
   /**
    * Constructs a new type literal. Derives represented class from type parameter.
    *
@@ -72,7 +72,7 @@ public class TypeToken<T> {
   @SuppressWarnings("unchecked")
   protected TypeToken() {
     this.type = getTypeTokenTypeArgument();
-    this.rawType = (Class<? super T>) $Gson$Types.getRawType(type);
+    this.rawType = (Class<? super T>) $Gson$Types.typesHelper.getRawType(type);
     this.hashCode = type.hashCode();
   }
 
@@ -80,7 +80,7 @@ public class TypeToken<T> {
   @SuppressWarnings("unchecked")
   private TypeToken(Type type) {
     this.type = $Gson$Types.canonicalize(Objects.requireNonNull(type));
-    this.rawType = (Class<? super T>) $Gson$Types.getRawType(this.type);
+    this.rawType = (Class<? super T>) $Gson$Types.typesHelper.getRawType(this.type);
     this.hashCode = this.type.hashCode();
   }
 
@@ -98,6 +98,7 @@ public class TypeToken<T> {
       ParameterizedType parameterized = (ParameterizedType) superclass;
       if (parameterized.getRawType() == TypeToken.class) {
         Type typeArgument = $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
+        
 
         if (isCapturingTypeVariablesForbidden()) {
           verifyNoTypeVariable(typeArgument);
@@ -193,11 +194,11 @@ public class TypeToken<T> {
     }
 
     if (type instanceof Class<?>) {
-      return rawType.isAssignableFrom($Gson$Types.getRawType(from));
+      return rawType.isAssignableFrom($Gson$Types.typesHelper.getRawType(from));
     } else if (type instanceof ParameterizedType) {
       return isAssignableFrom(from, (ParameterizedType) type, new HashMap<String, Type>());
     } else if (type instanceof GenericArrayType) {
-      return rawType.isAssignableFrom($Gson$Types.getRawType(from))
+      return rawType.isAssignableFrom($Gson$Types.typesHelper.getRawType(from))
           && isAssignableFrom(from, (GenericArrayType) type);
     } else {
       throw buildUnsupportedTypeException(
@@ -253,7 +254,7 @@ public class TypeToken<T> {
     }
 
     // First figure out the class and any type information.
-    Class<?> clazz = $Gson$Types.getRawType(from);
+    Class<?> clazz = $Gson$Types.typesHelper.getRawType(from);
     ParameterizedType ptype = null;
     if (from instanceof ParameterizedType) {
       ptype = (ParameterizedType) from;
@@ -422,11 +423,11 @@ public class TypeToken<T> {
     for (int i = 0; i < expectedArgsCount; i++) {
       Type typeArgument =
           Objects.requireNonNull(typeArguments[i], "Type argument must not be null");
-      Class<?> rawTypeArgument = $Gson$Types.getRawType(typeArgument);
+      Class<?> rawTypeArgument = $Gson$Types.typesHelper.getRawType(typeArgument);
       TypeVariable<?> typeVariable = typeVariables[i];
 
       for (Type bound : typeVariable.getBounds()) {
-        Class<?> rawBound = $Gson$Types.getRawType(bound);
+        Class<?> rawBound = $Gson$Types.typesHelper.getRawType(bound);
 
         if (!rawBound.isAssignableFrom(rawTypeArgument)) {
           throw new IllegalArgumentException(
