@@ -17,16 +17,13 @@
 package com.google.gson;
 
 import static com.google.gson.Gson.DEFAULT_COMPLEX_MAP_KEYS;
-import static com.google.gson.Gson.DEFAULT_DATE_PATTERN;
 import static com.google.gson.Gson.DEFAULT_ESCAPE_HTML;
 import static com.google.gson.Gson.DEFAULT_FORMATTING_STYLE;
 import static com.google.gson.Gson.DEFAULT_JSON_NON_EXECUTABLE;
 import static com.google.gson.Gson.DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
 import static com.google.gson.Gson.DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
 import static com.google.gson.Gson.DEFAULT_SERIALIZE_NULLS;
-import static com.google.gson.Gson.DEFAULT_SPECIALIZE_FLOAT_VALUES;
 import static com.google.gson.Gson.DEFAULT_STRICTNESS;
-import static com.google.gson.Gson.DEFAULT_USE_JDK_UNSAFE;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
@@ -38,12 +35,10 @@ import com.google.gson.internal.bind.DefaultDateTypeAdapter;
 import com.google.gson.internal.bind.TreeTypeAdapter;
 import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.internal.sql.SqlTypesSupport;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
