@@ -815,7 +815,7 @@ public final class TypeAdapters {
 
   @SuppressWarnings("TypeParameterNaming")
   public static <TT> TypeAdapterFactory newFactory(
-      TypeToken<TT> type, TypeAdapter<TT> typeAdapter) {
+      TypeToken<?> type, TypeAdapter<?> typeAdapter) {
     return new TypeAdapterFactory() {
       @SuppressWarnings("unchecked") // we use a runtime check to make sure the 'T's equal
       @Override

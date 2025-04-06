@@ -90,7 +90,7 @@ import java.util.Objects;
  * @author Joel Leitch
  * @author Jesse Wilson
  */
-public final class GsonBuilder {
+public final class GsonBuilder extends BaseGsonBuilder {
   private Excluder excluder = Excluder.DEFAULT;
   private LongSerializationPolicy longSerializationPolicy = LongSerializationPolicy.DEFAULT;
   private FieldNamingStrategy fieldNamingPolicy = FieldNamingPolicy.IDENTITY;
@@ -101,16 +101,11 @@ public final class GsonBuilder {
   private final List<TypeAdapterFactory> hierarchyFactories = new ArrayList<>();
 
   private boolean serializeNulls = DEFAULT_SERIALIZE_NULLS;
-  private String datePattern = DEFAULT_DATE_PATTERN;
-  private int dateStyle = DateFormat.DEFAULT;
-  private int timeStyle = DateFormat.DEFAULT;
   private boolean complexMapKeySerialization = DEFAULT_COMPLEX_MAP_KEYS;
-  private boolean serializeSpecialFloatingPointValues = DEFAULT_SPECIALIZE_FLOAT_VALUES;
   private boolean escapeHtmlChars = DEFAULT_ESCAPE_HTML;
   private FormattingStyle formattingStyle = DEFAULT_FORMATTING_STYLE;
   private boolean generateNonExecutableJson = DEFAULT_JSON_NON_EXECUTABLE;
   private Strictness strictness = DEFAULT_STRICTNESS;
-  private boolean useJdkUnsafe = DEFAULT_USE_JDK_UNSAFE;
   private ToNumberStrategy objectToNumberStrategy = DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
   private ToNumberStrategy numberToNumberStrategy = DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
   private final ArrayDeque<ReflectionAccessFilter> reflectionFilters = new ArrayDeque<>();
@@ -600,19 +595,7 @@ public final class GsonBuilder {
    * @throws IllegalArgumentException if the pattern is invalid
    * @since 1.2
    */
-  @CanIgnoreReturnValue
-  public GsonBuilder setDateFormat(String pattern) {
-    if (pattern != null) {
-      try {
-        new SimpleDateFormat(pattern);
-      } catch (IllegalArgumentException e) {
-        // Throw exception if it is an invalid date format
-        throw new IllegalArgumentException("The date pattern '" + pattern + "' is not valid", e);
-      }
-    }
-    this.datePattern = pattern;
-    return this;
-  }
+// set data format est ajouté dans la super classe BaseGsonBuilder
 
   /**
    * Configures Gson to serialize {@code Date} objects according to the date style value provided.
@@ -634,13 +617,7 @@ public final class GsonBuilder {
    * @throws IllegalArgumentException if the style is invalid
    * @since 1.2
    */
-  @Deprecated
-  @CanIgnoreReturnValue
-  public GsonBuilder setDateFormat(int dateStyle) {
-    this.dateStyle = checkDateFormatStyle(dateStyle);
-    this.datePattern = null;
-    return this;
-  }
+/// setDateFormat est define aussi dans la super classe 
 
   /**
    * Configures Gson to serialize {@code Date} objects according to the style value provided. You
@@ -666,13 +643,7 @@ public final class GsonBuilder {
     return this;
   }
 
-  private static int checkDateFormatStyle(int style) {
-    // Valid DateFormat styles are: 0, 1, 2, 3 (FULL, LONG, MEDIUM, SHORT)
-    if (style < 0 || style > 3) {
-      throw new IllegalArgumentException("Invalid style: " + style);
-    }
-    return style;
-  }
+
 
   /**
    * Configures Gson for custom serialization or deserialization. This method combines the
@@ -704,30 +675,24 @@ public final class GsonBuilder {
   @CanIgnoreReturnValue
   public GsonBuilder registerTypeAdapter(Type type, Object typeAdapter) {
     Objects.requireNonNull(type);
-    $Gson$Preconditions.checkArgument(
-        typeAdapter instanceof JsonSerializer<?>
-            || typeAdapter instanceof JsonDeserializer<?>
-            || typeAdapter instanceof InstanceCreator<?>
-            || typeAdapter instanceof TypeAdapter<?>);
+    checkArgument(
+        typeAdapter instanceof JsonSerializer<?> ||
+        typeAdapter instanceof JsonDeserializer<?> ||
+        typeAdapter instanceof TypeAdapter<?>);
 
     if (hasNonOverridableAdapter(type)) {
-      throw new IllegalArgumentException("Cannot override built-in adapter for " + type);
+        throw new IllegalArgumentException("Impossible de remplacer un adaptateur intégré pour " + type);
     }
 
-    if (typeAdapter instanceof InstanceCreator<?>) {
-      instanceCreators.put(type, (InstanceCreator<?>) typeAdapter);
-    }
-    if (typeAdapter instanceof JsonSerializer<?> || typeAdapter instanceof JsonDeserializer<?>) {
-      TypeToken<?> typeToken = TypeToken.get(type);
-      factories.add(TreeTypeAdapter.newFactoryWithMatchRawType(typeToken, typeAdapter));
-    }
-    if (typeAdapter instanceof TypeAdapter<?>) {
-      @SuppressWarnings({"unchecked", "rawtypes"})
-      TypeAdapterFactory factory =
-          TypeAdapters.newFactory(TypeToken.get(type), (TypeAdapter) typeAdapter);
-      factories.add(factory);
-    }
+    registerAdapter(type, typeAdapter, factories); // Appel à la méthode héritée
+
     return this;
+  }
+
+
+  private void checkArgument(boolean b) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'checkArgument'");
   }
 
   /** Whether the type has a built-in adapter which cannot be overridden. */
@@ -814,11 +779,7 @@ public final class GsonBuilder {
    * @return a reference to this {@code GsonBuilder} object to fulfill the "Builder" pattern
    * @since 1.3
    */
-  @CanIgnoreReturnValue
-  public GsonBuilder serializeSpecialFloatingPointValues() {
-    this.serializeSpecialFloatingPointValues = true;
-    return this;
-  }
+ /// la fonction serializeSpecialFloatingPointValues est define dans la super classe 
 
   /**
    * Disables usage of JDK's {@code sun.misc.Unsafe}.
