@@ -203,9 +203,12 @@ public final class JsonObject extends JsonElement {
    * @throws ClassCastException if the member is not of type {@code JsonPrimitive}.
    */
   public JsonPrimitive getAsJsonPrimitive(String memberName) {
-    return (JsonPrimitive) members.get(memberName);
+    JsonElement element = members.get(memberName);
+    if (element == null) {
+      throw new IllegalArgumentException("monmbre: " + memberName + "n'est pas trouvé");
+    }
+    return (JsonPrimitive) element;
   }
-
   /**
    * Convenience method to get the specified member as a {@link JsonArray}.
    *
